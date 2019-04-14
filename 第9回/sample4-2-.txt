@@ -1,0 +1,65 @@
+PImage img_in;
+int[] Stack_x, Stack_y;
+int StackPointer;
+
+int x,y;
+
+void setup()
+{
+  size(400, 400);
+  surface.setResizable(true);
+  img_in = loadImage("spade.bmp"); 
+  surface.setSize(img_in.width*2, img_in.height);
+  colorMode(RGB,255,255,255);
+  noLoop();
+  ClearStack();
+}
+
+
+void draw()
+{
+  image(img_in,0,0);
+  img_in.loadPixels();
+  PushStack(img_in.width/2, img_in.height/2);
+  
+  <<@‚±‚Ì•”•ª‚ðŠ®¬‚³‚¹‚È‚³‚¢ >>
+
+  img_in.updatePixels();
+  image(img_in,img_in.width, 0);
+}
+
+void  Set_Black(int x, int y){
+     int pos = x + img_in.width*y;
+     img_in.pixels[pos]=color(0,0,0);
+ }
+
+int Is_White(int x, int y){
+  if(gray(x,y)>128) { return(1);}
+  return(0);
+}
+
+void ClearStack(){
+  Stack_x = new int[10000]; Stack_y = new int[10000];
+  StackPointer=0;
+}
+
+void PushStack(int x,int y){
+  StackPointer++;
+  Stack_x[StackPointer]=x;
+  Stack_y[StackPointer]=y;
+}
+
+void PopStack(){
+  x=Stack_x[StackPointer];
+  y=Stack_y[StackPointer];
+  StackPointer--;
+}
+
+float  gray(int x, int y){
+     int pos = x + img_in.width*y;
+     color c = img_in.pixels[pos];
+     float r = red( c );
+     float g = green( c );
+     float b = blue( c );
+     return( 0.3 * r + 0.59 * g + 0.11 * b);
+   }

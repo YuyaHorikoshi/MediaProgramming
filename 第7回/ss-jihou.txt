@@ -1,0 +1,37 @@
+import ddf.minim.*;
+import ddf.minim.signals.*;
+
+Minim minim;
+AudioOutput out;
+SineWave sineF,sinef;
+
+int speed;
+void setup()
+{
+  minim = new Minim(this);
+  out = minim.getLineOut(Minim.STEREO);
+  sineF = new SineWave(440, 0.5, out.sampleRate());
+  sinef = new SineWave(880, 0.5, out.sampleRate());
+  noLoop();
+  speed=(60000/60)/2;
+}
+
+void draw()
+{ 
+  out.addSignal(sineF);delaymsec(speed);out.removeSignal(sineF);delaymsec(speed);
+  out.addSignal(sineF);delaymsec(speed);out.removeSignal(sineF);delaymsec(speed);
+  out.addSignal(sineF);delaymsec(speed);out.removeSignal(sineF);delaymsec(speed);
+  out.addSignal(sinef);delaymsec(speed*2);out.removeSignal(sinef);
+  }
+
+void stop()
+{
+  out.close();
+  minim.stop();
+  super.stop();
+}
+
+void delaymsec(int m){
+   int ms=millis();
+   while( millis()<(ms+m) ) {};
+}
